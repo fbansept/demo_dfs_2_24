@@ -1,17 +1,26 @@
 package demo.cassebrique;
 
 import demo.cassebrique.model.Balle;
+import demo.cassebrique.model.Barre;
+import demo.cassebrique.model.Brique;
+import demo.cassebrique.model.Forme;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Fenetre extends Canvas {
+public class Fenetre extends Canvas implements KeyListener {
 
     public static final int LARGEUR = 500;
     public static final int HAUTEUR = 600;
 
     protected JFrame fenetre = new JFrame();
+
+    ArrayList<Balle> tableauBalle = new ArrayList<>();
+    ArrayList<Forme> tableauForme = new ArrayList<>();
+    Barre barre = new Barre();
 
     public Fenetre() {
 
@@ -28,14 +37,23 @@ public class Fenetre extends Canvas {
         fenetre.pack();
         fenetre.setIgnoreRepaint(true);
 
+        fenetre.addKeyListener(this);
+
         fenetre.setVisible(true);
         createBufferStrategy(2);
 
-        ArrayList<Balle> tableauBalle = new ArrayList<>();
+        Balle ballePrincipale = new Balle(LARGEUR / 2, HAUTEUR / 2 , -3 , -3);
 
-        for(int i = 0; i <1000 ; i++) {
-            tableauBalle.add(new Balle());
+        tableauBalle.add(ballePrincipale);
+        tableauForme.add(ballePrincipale);
+
+        for(int indexLigne = 0; indexLigne < 4; indexLigne ++) {
+            for(int indexColonne = 0; indexColonne < 10; indexColonne ++) {
+                tableauForme.add(new Brique(indexColonne * 50 + 5, indexLigne * 35 + 5));
+            }
         }
+
+        tableauForme.add(barre);
 
         while (true) {
 
@@ -46,7 +64,10 @@ public class Fenetre extends Canvas {
 
             for(Balle balle : tableauBalle) {
                 balle.deplacement();
-                balle.dessiner(dessin);
+            }
+
+            for(Forme forme : tableauForme) {
+                forme.dessiner(dessin);
             }
 
             dessin.dispose();
@@ -65,4 +86,22 @@ public class Fenetre extends Canvas {
         new Fenetre();
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            barre.deplacementGauche();
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            barre.deplacementDroite();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

@@ -11,4 +11,19 @@ public class Barre extends Rectangle {
                 200, 40,
                 Color.GREEN);
     }
+
+    public void deplacementGauche() {
+        x -= 10;
+        if(x < 0) {
+            x = 0;
+        }
+    }
+
+    public void deplacementDroite() {
+        x += 10;
+        if(x > Fenetre.LARGEUR - largeur) {
+            x = Fenetre.LARGEUR - largeur;
+        }
+
+    }
 }
