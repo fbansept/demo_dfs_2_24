@@ -1,32 +1,34 @@
 package demo.cassebrique.model;
 
 import java.awt.*;
+
 import demo.cassebrique.*;
 
-public class Balle {
+public class Balle extends Forme {
 
-    protected int x;
     protected int vitesseHorizontal;
-    protected int y;
     protected int vitesseVertical;
     protected int diametre = 25;
-    protected Color couleur = Color.RED;
 
     public Balle() {
-        this.x = (int)(Math.random() * Fenetre.LARGEUR);
-        this.y = (int)(Math.random() * Fenetre.HAUTEUR);
-        this.vitesseHorizontal = (int)(Math.random() * 5) + 1;
-        this.vitesseVertical = (int)(Math.random() * 5) + 1;
-        this.couleur = new Color(
-                (float)(Math.random()),
-                (float)(Math.random()),
-                (float)(Math.random()));
+
+        super(  (int) (Math.random() * Fenetre.LARGEUR),
+                (int) (Math.random() * Fenetre.HAUTEUR),
+                new Color(
+                        (float) (Math.random()),
+                        (float) (Math.random()),
+                        (float) (Math.random())));
+
+        this.vitesseHorizontal = (int) (Math.random() * 5) + 1;
+        this.vitesseVertical = (int) (Math.random() * 5) + 1;
+
     }
 
-    public Balle(int x, int y, int vitesseHorizontal,  int vitesseVertical) {
-        this.x = x;
+    public Balle(int x, int y, int vitesseHorizontal, int vitesseVertical) {
+
+        super(x, y, Color.RED);
+
         this.vitesseHorizontal = vitesseHorizontal;
-        this.y = y;
         this.vitesseVertical = vitesseVertical;
     }
 
@@ -34,18 +36,18 @@ public class Balle {
         x += vitesseHorizontal;
         y += vitesseVertical;
 
-        if(x >= Fenetre.LARGEUR - diametre || x <= 0) {
-            vitesseHorizontal = - vitesseHorizontal;
+        if (x >= Fenetre.LARGEUR - diametre || x <= 0) {
+            vitesseHorizontal = -vitesseHorizontal;
         }
 
-        if(y >= Fenetre.HAUTEUR - diametre || y <= 0) {
+        if (y >= Fenetre.HAUTEUR - diametre || y <= 0) {
             vitesseVertical = -vitesseVertical;
         }
     }
 
     public void dessiner(Graphics2D dessin) {
         dessin.setColor(couleur);
-        dessin.fillOval(x,y,diametre,diametre);
+        dessin.fillOval(x, y, diametre, diametre);
     }
 
     public int getX() {
